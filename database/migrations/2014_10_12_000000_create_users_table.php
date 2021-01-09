@@ -26,7 +26,7 @@ class CreateUsersTable extends Migration
             $table->string("motivation");
             $table->string("comptence");
             $table->string("knowing_the_club");
-            $table->string("linked_in");
+            $table->string("linked_in")->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

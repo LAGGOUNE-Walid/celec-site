@@ -177,14 +177,14 @@
 
                 <input wire:model="cv" type="file" id="real-file" hidden>
                 <button type="button" id="custom-button">Choisir un document</button>
-                <span id="custom-text">Aucun document sélectionné. (Extensions autorisées: pdf, jpeg, doc.)</span>
-                <div class="invalid-feedback" wire:loading wire:target="cv">Téléchargement...</div>
+                <span id="custom-text">Aucun document sélectionné. (Extensions autorisées: pdf, doc.)</span>
+                <div class="invalid-feedback" wire:loading wire:target="cv">Uploading...</div>
                 @error('cv') <div class="invalid-feedback" style="color:red; margin-bottom: 3%;">{{ $message }}</div> @enderror
             </div>
 
-            <button class="B1" type="submit" wire:loading.attr="disabled">Submit</button>
-            <button class="B2" type="reset" wire:loading.attr="disabled">Reset</button>
-            <div wire:loading>
+            <button class="B1" type="submit" wire:target="submit" wire:loading.remove>Submit</button>
+            <button class="B2" type="reset" wire:target="submit" wire:loading.remove>Reset</button>
+            <div wire:loading style="margin-top: 5%;">
                 Enregistrement...
             </div>
     </form>

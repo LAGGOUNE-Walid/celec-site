@@ -40,8 +40,8 @@ class Register extends Component {
 			"motivation" => "required",
 			"comptence.*" => "required",
 			"knowing_the_club" => "required",
-			"linked_in" => "url",
-			"cv" => "required|mimes:pdf,doc|max:500"
+			"linked_in" => "nullable|url",
+			"cv" => "nullable|mimes:pdf,doc|max:500"
     	];
     }
 
@@ -62,7 +62,6 @@ class Register extends Component {
     		return  $this->dispatchBrowserEvent('birthday-error', ['message' => "nous n'acceptons pas les dates de naissance dans le futur -_-"]);
     	}
     	$this->comptence["other"] = $this->other;
-
     	$user = User::create([
     		"firstname" 		=> 		$this->firstname,
 	        'lastname' 			=> 		$this->lastname,
@@ -78,8 +77,10 @@ class Register extends Component {
 	        'linked_in' 		=> 		$this->linked_in,
 	        "activated"			=>		false,
     	]);	
-    	$cvPath = $this->cv->store("cvs");
-    	$user->cv()->create(["path" => $cvPath]);
+    	if(!is_null($this->cv)) {
+	    	$cvPath = $this->cv->store("cvs");
+	    	$user->cv()->create(["path" => $cvPath]);
+    	}
     	return  $this->dispatchBrowserEvent('user-created', ['message' => "Vous êtes inscrit avec succès, veuillez confirmer votre inscription au club!"]);
     }
 }

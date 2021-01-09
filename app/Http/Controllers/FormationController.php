@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 class FormationController extends Controller {
     public function show() {
+    	return redirect(url('register'));
     	return view("formation");
     }
 }

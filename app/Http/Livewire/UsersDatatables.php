@@ -14,17 +14,17 @@ class UsersDatatables extends LivewireDatatable {
 	public $model = User::class;
 
 	 public function builder() {
-        return User::query()
-        		->join("cvs", function($join) {
-        			$join->on("users.id", "=", "cvs.cvable_id")->where('cvs.cvable_type', "=", 'App\Models\User'); 
-        		});	
+        return User::query();
+        		// ->join("cvs", function($join) {
+        		// 	$join->on("users.id", "=", "cvs.cvable_id")->where('cvs.cvable_type', "=", 'App\Models\User'); 
+        		// });	
     }
 
 	public function columns() {
 		return [
 			NumberColumn::name('id')
                 ->label('ID')
-                ->filterable(),
+                ,
             Column::name("firstname")->label("Firstname"),
             Column::name("lastname")->label("Lastname"),
             Column::name("email")->label("Email"),
@@ -37,11 +37,12 @@ class UsersDatatables extends LivewireDatatable {
                 return view('livewire.users-competences', ['comptence' => $comptence]);
             })->label("competence"),
             Column::name("linked_in")->label("linkedin"),
-            DateColumn::name("birthday")->label("Birth date")->filterable(),
-            DateColumn::name("created_at")->label("Regsitred at")->filterable(),
-			Column::name('cvs.path')
-				->label("CV")
-				->linkTo("celec-site/storage/app"),
+            Column::name("birthday")->label("Birth date"),
+            Column::name("created_at")->label("Regsitred at"),
+			// Column::name('cvs.path')
+			// 	->label("CV")
+			// 	->linkTo("celec-site/storage/app"),
+            Column::name("cv.path")->label("cv")->linkTo("celec-site/storage/app"),
 			Column::callback(['id', 'activated'], function ($id, $activated) {
                 return view('livewire.users-accept', ['id' => $id, 'activated' => $activated]);
             })->label("Actions"),
