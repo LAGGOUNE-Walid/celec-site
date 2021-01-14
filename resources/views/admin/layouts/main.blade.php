@@ -12,7 +12,7 @@
 	@livewireStyles
 </head>
 <body>
-	@if(Request::is("admin/users/show") == false)
+	@if(Request::is("admin/users/show") == false AND isset($users) AND Request::is("admin/login") == false)
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 	  <div class="container-fluid">
 	    <a class="navbar-brand" href="#">CELEC</a>

@@ -27,6 +27,8 @@ class Register extends Component {
 	public $other;
 	public $cv;
 
+	public $uploaded = false;
+
     public function rules() {
     	return [
 			"firstname" => "required|min:3|max:200",
@@ -48,6 +50,11 @@ class Register extends Component {
     public function updated($propertyName) {
 
         $this->validateOnly($propertyName);
+    }
+
+    public function updateCv() {
+    	$this->validate(['cv' => "nullable|mimes:pdf,doc|max:500"]);
+    	$this->uploaded = true;
     }
 
     public function render() {
