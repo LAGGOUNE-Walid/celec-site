@@ -24,7 +24,8 @@ class User extends Authenticatable
         "comptence",
         "knowing_the_club",
         'linked_in',
-        'activated'
+        'activated',
+        "have_card"
     ];
 
     protected $casts = ['birthday' => "datetime", "comptence" => "collection"];

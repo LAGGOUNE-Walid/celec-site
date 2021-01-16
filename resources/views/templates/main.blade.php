@@ -4,6 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="{{url('resources/images/logos/celec_blanc.png')}}" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
     {{-- {{url()}} => this will generate url: 127.0.0.1/ , example {{url('css/style.css')}} => this will generate : 127.0.0.1/css --}}
     @if(Request::is('register'))
         <link rel="stylesheet" href="{{url('resources/css/style.css')}}">
@@ -13,12 +14,14 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
         <link rel="stylesheet" href="{{url('resources/css/eventssa.css')}}">)
-    @elseif(Request::is("learn"))
+    @elseif(Request::is("courses"))
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-        <link rel="stylesheet" href="{{url('resources/css/cours.css')}}">
+        <link rel="stylesheet" href="{{url('resources/css/course.css')}}">
         <link href="https://fonts.googleapis.com/css?family=Poppins:400,600&amp;display=swap" rel="stylesheet">
+        <script src="https://kit.fontawesome.com/27e5e9f5bc.js" ></script>
     @elseif(Request::is("gallerie"))
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <link rel="stylesheet" href="{{url('resources/css/gallerie.css')}}">
         <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
         {{-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> --}}
@@ -79,7 +82,7 @@
 
 <body>
         <!--loader-->
-        @if(Request::is('register') == false AND Request::is("formation") == false AND Request::is("events") == false AND Request::is("learn") == false AND Request::is("gallerie") == false)
+        @if(Request::is('register') == false AND Request::is("formation") == false AND Request::is("events") == false AND Request::is("courses") == false AND Request::is("gallerie") == false)
             <div class="loader-wrapper">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 539.8 122.57" id="logo"><defs><style>.cls-1{fill:none;stroke:#ffffff;stroke-miterlimit:10;stroke-width:4px;}
                 </style>
@@ -98,25 +101,27 @@
         
         
          <!--*************** NavBar ***************-->
-         @if(Request::is("register"))
-            <x-second-nav-bar/>
-        @elseif(Request::is("formation") OR Request::is("gallerie"))
+        @if(Request::is("formation"))
             <x-third-nav-bar/>
         @else
          {{-- this will require: resources/views/components/first-nav-bar.blade.php --}}
-            <x-first-nav-bar/>
+            @if(Request::is("gallerie") == false)
+                <x-first-nav-bar/>
+            @endif
         @endif
 
         <!-- this will be replaced by the page -->
         @yield("content")
 
         <!--footer-->
-        @if(Request::is('register') OR Request::is("gallerie"))
+        @if(Request::is('register'))
             <x-second-footer/>
         @elseif(Request::is("fomration"))
             <x-third-footer/>
         @else
-            <x-first-footer/>
+            @if(Request::is("gallerie") == false)
+                <x-first-footer/>
+            @endif
         @endif
 
     {{-- Check if we are in register page --}}
@@ -124,12 +129,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     @if(Request::is("register"))
         <script>
-            const toggleButton = document.getElementsByClassName('toggle-button')[0]
-           const navbarLinks = document.getElementsByClassName('navbar-links')[0]
-
-           toggleButton.addEventListener('click', () => {
-           navbarLinks.classList.toggle('active')
-           })
+           
             const realFileBtn = document.getElementById("real-file");
             const customBtn = document.getElementById("custom-button");
             const customTxt = document.getElementById("custom-text");
@@ -146,10 +146,133 @@
                 }
             });
         </script>
-    @else  
-             
     
+    @elseif(Request::is("gallerie"))
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.2/TweenMax.min.js"></script>
+          <script src="https://unpkg.com/imagesloaded@4.1.4/imagesloaded.pkgd.min.js"></script>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.2/plugins/CSSPlugin.min.js"></script>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.2/plugins/TextPlugin.min.js"></script>
+          <script>
+              $('.slideshow').imagesLoaded({ background: true })
+                .done( function() {
+                  // hide loader
+                  $('.loader').addClass('is-loaded');
+                  
+                  // init variables
+                  var slideshow = $(".slideshow"),
+                    navigation = $(".navigation"),
+                    navigationItem = $(".navigation-item"),
+                    detailItem = $(".detail-item"),
+                    rotation,
+                    type = '_short';
+
+                  // prepare letters
+                  $('.headline').each(function() {
+                    $(this).html($(this).text().replace(/([^\x00-\x80]|\w)/g, "<span class='letter'>$&</span>"));
+                  });
+
+                  // prepare navigation and set navigation items on the right place
+                  navigationItem.each(function(index, elem) {
+                    TweenMax.set(elem, {
+                      left: navigation.width() / 2 - navigationItem.width() / 2 - 10,
+                      rotation: 90 + (index * 360 / navigationItem.length),
+                      transformOrigin: "50% " + navigation.width() / 2 + "px"
+                    });
+                    TweenMax.set($(elem).find('.rotate-holder'), {
+                      text: String(index * 360 / navigationItem.length)
+                    });
+                    TweenMax.set($(elem).find('.background-holder'), {
+                      rotation: -90 - (index * 360 / navigationItem.length),
+                    });
+                  });
+                  
+                  // set tween values
+                  function setTweenValues() {
+                    rotation = Number($(this).find('.rotate-holder').text());
+                  }
+
+                  // do tween
+                  function doTween(target) {
+
+                    var targetIndex = navigationItem.index(target),
+                      timeline = new TimelineMax();
+
+                    // add/remove class "active" from navigation & detail
+                    navigationItem.each(function() {
+                      $(this).removeClass('active');
+                      if ($(this).index() == $(target).index()) {
+                        $(this).addClass('active');
+                      }
+                    });
+                    detailItem.each(function() {
+                      $(this).removeClass('active');
+                      if ($(this).index() == $(target).index()) {
+                        $(this).addClass('active');
+                      }
+                    });
+
+                    timeline
+                      .to(navigation, 0.6, {
+                        rotation: -rotation + type,
+                        transformOrigin: "50% 50%",
+                        ease: Sine.easeInOut
+                      })
+                      .staggerTo(navigationItem.find('.background-holder'), 0.6, {
+                        cycle: {
+                          //function that returns a value
+                          rotation: function(index, element) {
+                            return -90 - Number($(element).prev('.rotate-holder').text()) + rotation + type;
+                          }
+                        },
+                        transformOrigin: "50% 50%",
+                        ease: Sine.easeInOut,
+                      }, 0, '-=0.6')
+                      .staggerFromTo($('.active').find('.letter'), 0.3, {
+                        autoAlpha: 0,
+                        x: -100,
+                      },
+                      {
+                        autoAlpha: 1,
+                        x: 0,
+                        ease: Sine.easeInOut,
+                      }, 0.025, '-=0.3')
+                      .fromTo($('.active').find('.background'), 0.9, {
+                        autoAlpha: 0,
+                        x: -100,
+                      },
+                      {
+                        autoAlpha: 1,
+                        x: 0,
+                        ease: Sine.easeInOut,
+                      }, 0.05, '+=0.3');
+                  }
+
+                  // click/hover on items
+                  navigationItem.on('mouseenter', setTweenValues);
+                  navigationItem.on('click', function() { doTween($(this)); })
+
+                  // on load show slideshow as well as first "active" navigation/detail item
+                  TweenMax.to(slideshow, 1, { autoAlpha: 1 });
+                  TweenMax.to($('.active').find('.letter'), 0.7, { autoAlpha: 1, x: 0 });
+                  TweenMax.to($('.active').find('.background'), 0.7, { autoAlpha: 1, x: 0 });
+
+                });
+
+                // fast fix for resize window and refresh view, attention: not use in production, only for demo purposes!
+                (function () {
+                var width = window.innerWidth;
+
+                window.addEventListener('resize', function () {
+                  if (window.innerWidth !== width) {
+                    window.location.reload(true);
+                  }
+                });
+                })();
+          </script>
+          <script src="https://kit.fontawesome.com/27e5e9f5bc.js" ></script>
+    @else  
             <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+            <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
             <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 
@@ -162,7 +285,7 @@
                  AOS.init();
                 setTimeout(function(){
                       $('.loader-wrapper').fadeToggle();
-                },3000);
+                }, 0);
                 $(document).ready(function(){
                     $('.logo-area').slick({
                         slidesToShow:3,
@@ -176,12 +299,15 @@
                             pauseOnHover:true,
                             settings:{
                                 slidesToShow:2,
+            
                             }
+                            
+                            
                         }]
                     });
                 })
             </script>
-        @endif
+    @endif
         @livewireScripts
         @stack("scripts")
     </body>

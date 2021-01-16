@@ -1,5 +1,5 @@
 <div>
-    @if(Request::is("learn") == false)
+    @if(Request::is("courses") == false)
     <div class="row col-md-12 align-items-center justify-content-center ">
         <a class="gotopbtn " href="#"><i class="fas fa-arrow-up"></i></a>
     </div>
@@ -25,27 +25,8 @@
                         <a href="https://www.youtube.com/channel/UCtSDj0OaHveDGL9FNq4vVCQ" target="blank"> <i class="fab fa-youtube"></i> </a>
                     </div>
                 </div>
-    
                 <div class="col-sm-6" data-aos="fade-right" data-aos-duration="1500">
-                    <div class="login">
-                        <h2>Contact Us</h2>
-                        <div class="text_box"> 
-                            <input type="text"  placeholder=" Name">
-                        </div>
-    
-                        <div class="text_box">
-                        <input type="email" name="" placeholder="Email">
-                        </div>
-    
-                        <div class="text_box">
-                        <input type="text" name="" placeholder="enter your msg" >
-                        </div>
-    
-                        <div class="bouton">
-                            <input type="button" value="Send">
-                        </div>
-                    </div>
-                        
+                    @livewire("contact", ["ip" => Request::ip()])
                 </div>
             </div>
         

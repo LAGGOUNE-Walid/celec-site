@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 
 class CourseController extends Controller {
     public function show() {
-    	return redirect(url('register'));
     	return view("courses");
     }
 }

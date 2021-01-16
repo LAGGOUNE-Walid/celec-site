@@ -1,6 +1,6 @@
 <div class="form">
-	<form wire:submit.prevent="submit">
-		@csrf
+    <form wire:submit.prevent="submit">
+        @csrf
             <label for="name">Nom:
                 <input wire:model.debounce.500ms="firstname" class="style" type="text" name="name" id="name" placeholder="Votre Nom...">
                 @error('firstname') <div class="invalid-feedback" style="color:red; margin-bottom: 3%;">{{ $message }}</div> @enderror
@@ -26,10 +26,10 @@
                 @error('phone') <div class="invalid-feedback" style="color:red; margin-bottom: 3%;">{{ $message }}</div> @enderror
             </label>
 
-            <label for="UNI">Votre Université:
-                <input wire:model.debounce.500ms="university" class="style" type="text" name="Université" id="UNI" placeholder="Université...">
-                @error('university') <div class="invalid-feedback" style="color:red; margin-bottom: 3%;">{{ $message }}</div> @enderror
-            </label>
+            <!--<label for="UNI">Votre Université:-->
+            <!--    <input wire:model.debounce.500ms="university" class="style" type="text" name="Université" id="UNI" placeholder="Université...">-->
+            <!--    @error('university') <div class="invalid-feedback" style="color:red; margin-bottom: 3%;">{{ $message }}</div> @enderror-->
+            <!--</label>-->
 
             <div class="level">
                 <p>Niveau d'Etude:</p>
@@ -180,17 +180,17 @@
                 @if(is_null($cv))
                     <span id="custom-text">Aucun document sélectionné. (Extensions autorisées: pdf, doc.)</span>
                 @endif
-                <div class="invalid-feedback" wire:loading wire:target="cv">Uploading...</div>
                 @if($cv AND !$errors->has("cv"))
-                    <span style="color: #67f58d;">uploaded</span>
+                    <strong wire:loading.remove wire:target="cv"><span style="color: #67f58d;">uploaded</span></strong>
                 @endif
+                <div class="invalid-feedback" wire:loading wire:target="cv">Uploading...</div>
                 @error('cv') <div class="invalid-feedback" style="color:red; margin-bottom: 3%;">{{ $message }}</div> @enderror
             </div>
 
             <button class="B1" type="submit" wire:target="submit" wire:loading.remove>Submit</button>
             <button class="B2" type="reset" wire:target="submit" wire:loading.remove>Reset</button>
-            <div wire:loading  style="margin-top: 5%;">
-                Enregistrement...
+            <div wire:loading wire:target="submit" style="margin-top: 5%;">
+                <strong>Enregistrement...</strong>
             </div>
     </form>
 </div>

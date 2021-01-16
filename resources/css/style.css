@@ -7,70 +7,186 @@ body {
     box-sizing: border-box;
 }
 /*nav bar*/
-.logo {
+
+nav{
+    position: fixed;
+    z-index: 10;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 70px;
+    background-color: #0088FF;
+    
+  } 
+  nav .logo{
     float: left;
-    padding-top: 20px;
-    padding-left: 80px;
-    width: 25%;
-}
-.navbar {
     display: flex;
-    position: relative;
+    margin-top: 10px;
+    margin-left: 45px;
+    
+  }
+  nav .linkes{
+    float: right;
+    padding-top: 10px;
+    display: flex;
+    margin-top:15px;
     justify-content: space-between;
     align-items: center;
+    font-family:'Montserrat ',sans-serif;
+  
+  }
+  nav .linkes li{
+  list-style: none;
+  }
+      nav ul  a:hover{
+        background-color: rgba(215, 241, 253, 0.06); 
+        border-radius: 20px;
+        transition: .5s;
+        text-decoration: none;
+        color: white;
+      }
+  nav ul li a{
     color: white;
-}
-.navbar-links {
-    height: 100%;
-}
-
-.navbar-links ul {
-    display: flex;
-    margin: 0;
-    padding: 0;
-}
-
-.navbar-links li {
-    list-style: none;
-    display: inline-block;
-    padding-top: 0px;
-    margin-right: 10px;
     font-size: 18px;
-    position: relative;
-}
-
-.navbar-links li a {
-    display: block;
     text-decoration: none;
-    color: white;
-    padding: 8px 15px;
-    border-radius: 20px;
-    text-align: center;
-}
-.navbar-links li a:hover {
-    background-color: rgba(0, 176, 255, 0.6); 
-    border-radius: 20px;
-    transition: .5s;
-    text-decoration: none;
-    color: #495464;
-}
-.toggle-button {
-    position: absolute;
-    top: .75rem;
-    right: 1rem;
-    display: none;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 30px;
-    height: 21px;
-}
-
-.toggle-button .bar {
-    height: 3px;
-    width: 100%;
-    background-color: white;
-    border-radius: 10px;
-}
+    border-radius: 5px;
+    padding: 12px;
+  
+  }
+      nav .linkes li{
+      display: block;
+      padding: 0.3em ;
+      color: white;
+  
+      }
+      #nav-toggle{
+        top: -100px;;
+        position: absolute;
+      }
+      nav .icon-barger{
+        transform: translateY(-50%);
+        display: none;
+        position: absolute;
+      right: 5%;
+      top: 50%;
+      }
+      nav .icon-barger .line{
+        width: 30px;
+        height: 5px;
+        background-color: white;
+        margin: 5px;
+        border-radius: 3px;
+        transition: all .5s ease-in-out;
+  
+      }
+      @media screen and (max-width: 768px){
+    nav .linkes{
+      float: none;
+      position: fixed;
+      z-index: 0;
+      left: 0;
+      right: 0;
+      top: 100px;
+      bottom: 0;    
+  
+    }
+    nav .linkes{
+      float: none;
+      position: fixed;
+      left: 0;
+      right: 0;
+      top: -10%;
+      bottom: 100%;  
+      flex-direction: column;  
+        background-image: url(../images/bg5.svg); 
+      background-repeat: no-repeat;
+      background-size: cover;
+      width: auto;
+      height: auto;
+      overflow: hidden;
+      transition: all .5s ease-in-out;
+  
+    }
+    .dropbtn{
+      background-color: transparent;
+    }
+    
+    nav .linkes a{
+      font-size: 18px ;
+  
+    }
+    nav .logo{
+      float: none;
+      width: auto;
+      justify-content: right;
+    }
+    nav .icon-barger {
+      display: block;
+    }
+    nav :checked ~ .icon-barger .line:nth-child(1) {
+      transform: translateY(10px) rotate(225deg);
+  
+    }
+    nav :checked ~ .icon-barger .line:nth-child(2) {
+  opacity: 0;
+    }
+    
+    nav :checked ~ .icon-barger .line:nth-child(3) {
+      transform: translateY(-10px) rotate(-225deg);
+  
+    }
+    nav :checked ~ .linkes{
+      bottom: 0;
+    }
+  
+  }
+  /*dropdown*/
+  .dropbtn {
+    background-color: transparent;
+    color:white;
+    padding: 10px;
+    font-size: 18px;
+    font-family:'Montserrat ',sans-serif;
+    border: none;
+    cursor: pointer;
+   }
+   .dropbtn:hover{
+       background-color: rgba(129, 210, 248, 0.226);
+       border-radius: 20px;
+        transition: .5s;
+   }
+   
+   .dropdown {
+     position: relative;
+     display: inline-block;
+   }
+   
+   .dropdown-content {
+     
+     display: none;
+     position: absolute;
+     background-color: white;
+     min-width: 160px;
+     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+     z-index: 1;
+   }
+   
+   .dropdown-content a {
+     color: rgb(42, 44, 73);
+     transition: .5s;
+     padding: 10px 14px;
+     text-decoration: none;
+     display: block;
+   }
+   
+   .dropdown-content a:hover {background-color: rgba(158, 220, 248, 0.493);
+     color: rgb(42, 44, 73);
+   }
+   
+   .dropdown:hover .dropdown-content {
+     display: block;
+   }
+   
 /*pre-inscriotion form*/
 .hero-text {
     text-align: center;

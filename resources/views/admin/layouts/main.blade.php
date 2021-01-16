@@ -13,20 +13,23 @@
 </head>
 <body>
 	@if(Request::is("admin/users/show") == false AND isset($users) AND Request::is("admin/login") == false)
-	<nav class="navbar navbar-expand-lg navbar-light bg-light">
-	  <div class="container-fluid">
-	    <a class="navbar-brand" href="#">CELEC</a>
-	    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-	      <span class="navbar-toggler-icon"></span>
-	    </button>
-	    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-	      <div class="navbar-nav">
-	        <a class="nav-link active" aria-current="page" href="#">Home</a>
-	        <a class="nav-link" href="{{url('admin/users/show')}}">users (Total: {{$users}})</a>
-	      </div>
-	    </div>
-	  </div>
-	</nav>
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		  <div class="container-fluid">
+		    <a class="navbar-brand" href="#">CELEC</a>
+		    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+		      <span class="navbar-toggler-icon"></span>
+		    </button>
+		    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+		      <div class="navbar-nav">
+		        <a class="nav-link @if(Request::is('admin/dashboard')) active @endif" aria-current="page" href="{{url('admin/dashboard')}}">Home</a>
+		        <a class="nav-link" href="{{url('admin/users/show')}}">users (Total: {{$users}})</a>
+		        <a class="nav-link @if(Request::is('admin/messages*')) active @endif" href="{{url('admin/messages/show')}}">Messages (Total: 
+		        	@if(is_int($messages)) {{$messages}} @else {{$messages->count()}} @endif
+		        )</a>
+		      </div>
+		    </div>
+		  </div>
+		</nav>
 	@endif
 	@yield("content")
 </body>

@@ -27,16 +27,14 @@ class Register extends Component {
 	public $other;
 	public $cv;
 
-	public $uploaded = false;
-
     public function rules() {
     	return [
 			"firstname" => "required|min:3|max:200",
 			"lastname" => "required|min:3|max:200",
 			"email" => "required|email:rfc|unique:users,email",
 			"birthday" => "required|date",
-			"phone" => "required|max:10|unique:users,phone",
-			"university" => "required|max:100",
+			"phone" => "required|max:16|unique:users,phone",
+// 			"university" => "required|max:100",
 			"study_year" => ['required', Rule::in(['L1', 'L2', 'L3', 'M1', 'M2'])],
 			"study_field" => "required",
 			"motivation" => "required",
@@ -50,11 +48,6 @@ class Register extends Component {
     public function updated($propertyName) {
 
         $this->validateOnly($propertyName);
-    }
-
-    public function updateCv() {
-    	$this->validate(['cv' => "nullable|mimes:pdf,doc|max:500"]);
-    	$this->uploaded = true;
     }
 
     public function render() {
@@ -75,7 +68,7 @@ class Register extends Component {
 	        'email' 			=> 		$this->email,
 	        "birthday" 			=> 		$birthday->toDateTimeString(),
 	        "phone" 			=> 		$this->phone,
-	        "university" 		=> 		$this->university,
+	        "university" 		=> 		null,
 	        "study_year" 		=> 		$this->study_year,
 	        "study_field" 		=> 		$this->study_field,
 	        "motivation" 		=> 		$this->motivation,
@@ -88,6 +81,19 @@ class Register extends Component {
 	    	$cvPath = $this->cv->store("cvs");
 	    	$user->cv()->create(["path" => $cvPath]);
     	}
-    	return  $this->dispatchBrowserEvent('user-created', ['message' => "Vous êtes inscrit avec succès, veuillez confirmer votre inscription au club!"]);
+    	return  $this->dispatchBrowserEvent('user-created', ['message' => "
+    		Merci d'avoir remplis ce  formulaire .
+		Votre inscription a bien été enregistrée !
+		<br/>
+		N'oubliez pas de completer votre inscription par le dossier ci-dessous:
+		<ul>
+		 <li>Une photo</li> 
+		 <li>Copie de la certificat de scolarité 2021</li>
+		 <li>Copie de la pièce d'identité</li>
+		</ul>
+		<br/>
+		Il suffit de le déposer au niveau du labo 13 de la faculté d'élèctronique et d'informatique de l'USHB.
+		<br/>
+		Bienvenue à vous!"]);
     }
 }
